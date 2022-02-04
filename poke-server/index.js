@@ -41,13 +41,13 @@ app.get('/api/v1/pokemon', (req, res) => {
     });
 });
 
-app.post('/api/v1/pokemon/', (req, res) => {
-    /*
+app.get('/api/v1/types', (req, res) => {
     var dbConn = new sql.ConnectionPool(config);
     dbConn.connect().then(function () {
         var request = new sql.Request(dbConn);
-        request.query("select * from pokemon").then(function (resp) {
-            console.log(resp.recordset);
+        request.query("select * from PokemonType").then(function (resp) {
+            let result = resp.recordset
+            res.send(result);
             dbConn.close();
         }).catch(function (err) {
             console.log(err);
@@ -56,7 +56,24 @@ app.post('/api/v1/pokemon/', (req, res) => {
     }).catch(function (err) {
         console.log(err);
     });
-    */
+});
+
+//INSERT INTO Pokemon (Name, Description, PokemonTypeFK) VALUES ('Hitmontop', 'Handstand Pokémon', 3)
+app.post('/api/v1/pokemon/', (req, res) => {
+    var dbConn = new sql.ConnectionPool(config);
+    console.log(req.body);
+    dbConn.connect().then(function () {
+        var request = new sql.Request(dbConn);
+        request.query(`INSERT INTO Pokemon (Name, Description, PokemonTypeFK) VALUES ('${req.body.name}', '${req.body.description}', ${req.body.type})`).then(function (resp) {
+            // console.log(resp.recordset);
+            dbConn.close();
+        }).catch(function (err) {
+            console.log(err);
+            dbConn.close();
+        });
+    }).catch(function (err) {
+        console.log(err);
+    });
 });
 
 app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`));

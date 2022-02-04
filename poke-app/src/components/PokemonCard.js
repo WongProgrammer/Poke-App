@@ -2,19 +2,19 @@ import React from 'react';
 import {
   Card,
   CardContent,
-  CardHeader,
   Typography
 } from '@mui/material';
 
-function PokemonCard({ name, key, description }) {
+function PokemonCard({ name, description }) {
 
   return (
-    <Card>
-        <Typography> {name} </Typography>
+    <Card
+      sx={{marginBottom : 5}}
+    >
+      <Typography> {name} </Typography>
       <CardContent>
         {description}
       </CardContent>
-
     </Card>);
 }
 
